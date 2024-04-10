@@ -1,5 +1,22 @@
+import { useEffect } from "react";
+import { useState } from "react";
 
-export default function searchBox({data, setSearchResults}){
+export default function SearchBox({data, setSearchResults}){
+
+    const [placeholder, setPlaceholder] = useState("What are you looking for?");
+
+    useEffect(() => {
+        //Implementing the setInterval method
+        const interval = setInterval(() => {
+            if (placeholder === "What are you looking for?")
+                setPlaceholder("Use '#' for search type. Example: #food")
+            else
+                setPlaceholder("What are you looking for?")
+        }, 3000);
+ 
+        //Clearing the interval
+        return () => clearInterval(interval);
+    }, [placeholder]);
 
     const handleChange = (e) => {
         if (!e.target.value) return setSearchResults(data);
@@ -14,10 +31,10 @@ export default function searchBox({data, setSearchResults}){
 
     return (
             <header>
-                <form className="search" onSubmit={handleSubmit}>
-                    <div class="wrap">
-                        <div class="search">
-                            <input type="text" className="searchTerm" placeholder="What are you looking for?" onChange={handleChange} />
+                <form  onSubmit={handleSubmit}>
+                    <div className="wrap">
+                        <div className="search">
+                            <input type="text" className="searchTerm" placeholder={placeholder} onChange={handleChange} />
                         </div>
                     </div>
                 </form>
